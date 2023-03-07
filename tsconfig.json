@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ESNext",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "inlineSourceMap": true,
+    "moduleResolution": "Node",
+    "outDir": "./types"
+  },
+  "exclude": [
+    "./node_modules/**/*",
+    "./tests/**/*",
+    "./src/tests/**/*",
+    "./src/index.ts",
+    "./coverage/**/*",
+    "./types/**/*"
+  ]
+}

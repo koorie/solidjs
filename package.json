@@ -1,0 +1,92 @@
+{
+  "name": "@koorie/solidjs",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "description": "Koorie Frontend Solidjs CLI. ESModule.",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "ks": "index.js"
+  },
+  "engines": {
+    "node": "^19 || ^18 || ^17 || ^16 || ^14.15 || ^12.13"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "types": "./index.d.ts",
+  "files": [
+    "lib",
+    "index.js",
+    "index.d.ts",
+    "vite.config.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "babel-watch": "npx babel --extensions \".ts\" --out-dir ./ src --watch",
+    "build": "./shell_scripts/build.sh",
+    "build:fix-chmod": "./shell_scripts/fix-chmod.sh",
+    "build:clean": "./shell_scripts/clean_build.sh",
+    "lint": "npx eslint . --ext .ts --ext .js",
+    "lint-fix": "npx eslint . --fix --ext .ts --ext .js",
+    "lint-watch": "npx esw --watch --fix --watch-delay=2",
+    "test": "4t unit",
+    "tsc-watch": "npx tsc --watch",
+    "t8": "t8 --c8='src:./src|html:|no-questions:|no-print:|skip-full:' unit"
+  },
+  "dependencies": {
+    "@cli-dang/activity": "^2.0.2",
+    "@cli-dang/boolean": "^2.0.2",
+    "@cli-dang/decors": "^2.0.2",
+    "@cli-dang/error": "^2.0.2",
+    "@cli-dang/input": "^3.2.9",
+    "@cli-dang/json": "^2.0.2",
+    "@cli-dang/object": "^2.0.2",
+    "chokidar": "^3.5.3",
+    "cli-table3": "^0.6.3",
+    "oftypes": "^3.0.3",
+    "semver": "^7.3.8",
+    "validate-npm-package-name": "^5.0.0",
+    "vite": "^4.1.4",
+    "vite-plugin-solid": "^2.6.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
+    "@babel/preset-typescript": "^7.21.0",
+    "@types/node": "^18.14.6",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "eslint": "^8.35.0",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "eslint-watch": "^8.0.0",
+    "trythistrythat": "^3.0.6",
+    "typescript": "^4.9.5"
+  },
+  "keywords": [
+    "solidjs",
+    "vite",
+    "koorie",
+    "frontend",
+    "developer utility"
+  ],
+  "author": {
+    "name": "Simone Del Popolo",
+    "email": "simonedelpopolo@outlook.com",
+    "url": "https://github.com/simonedelpopolo"
+  },
+  "homepage": "https://github.com/simonedelpopolo/koorie-solidjs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonedelpopolo/koorie-solidjs.git"
+  },
+  "bugs": {
+    "email": "simonedelpopolo@outlook.com",
+    "url": "https://github.com/simonedelpopolo/koorie-solidjs/issues"
+  }
+}
