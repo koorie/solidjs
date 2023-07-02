@@ -1,10 +1,11 @@
 import { spawn } from 'node:child_process'
 
-export default async function cb<cb> ():Promise<void>{
+export default async function cb( data: Input.ParsedArgv ):Promise<void>{
 
-  const conf = `${process.cwd()}/node_modules/@koorie/solidjs/vite.config.js`
+  // @ts-ignore: @to-fix
+  const conf: string = data.flag?.[ '--config' ] ?? `${process.cwd()}/node_modules/@koorie/solidjs/vite.config.js`
 
-  spawn( 'node_modules/.bin/vite', [ '--config', conf, 'build' ], {
+  spawn( 'node_modules/.bin/vite', [ '--emptyOutDir', '--config', conf, 'build' ], {
     stdio: [ 'ignore', 'inherit', 'inherit' ]
   } )
 

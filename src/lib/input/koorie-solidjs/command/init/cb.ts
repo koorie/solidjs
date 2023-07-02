@@ -1,9 +1,13 @@
+import source from '../../../../solidjs/source.js'
 import { resolvers, undefined_ } from 'oftypes'
 
-export default async function cb<cb> ( data:ParsedArgv ):Promise<void>{
+export default async function cb( data: Input.ParsedArgv ):Promise<void>{
 
-  const truthy  = true
-  const falsy = async () => false
+  const truthy  = () => {/**/}
+  const falsy = () => {
+    source()
+  }
 
-  console.trace( await undefined_( data.flag?.[ '--bare' ], await resolvers( truthy, falsy ) ) )
+  // @ts-ignore: @to-fix
+  await undefined_( data.flag?.[ '--bare' ], await resolvers( truthy, falsy ) )
 }

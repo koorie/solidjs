@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "target": "ESNext",
-    "declaration": true,
-    "emitDeclarationOnly": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "nodenext",
+    "rootDir": "./src",
+    "outDir": "./",
+    "allowSyntheticDefaultImports": true,
     "inlineSourceMap": true,
-    "moduleResolution": "Node",
-    "outDir": "./types"
+    "declaration": true,
+    "declarationDir": "./types",
+    "experimentalDecorators": true,
+    "noImplicitAny": true
   },
   "exclude": [
     "./node_modules/**/*",
-    "./tests/**/*",
-    "./src/tests/**/*",
-    "./src/index.ts",
     "./coverage/**/*",
-    "./types/**/*"
+    "./types/**",
+    "./vite.config.ts",
+    "./app"
   ]
 }

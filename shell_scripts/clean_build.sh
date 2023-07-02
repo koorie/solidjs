@@ -1,5 +1,6 @@
 # clean build
 rm -rf ./lib || true
+rm -rf ./app || true
 rm ./index.js || true
 rm -rf ./tests || true
 rm -rf ./types || true
