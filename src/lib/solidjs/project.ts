@@ -9,7 +9,6 @@ project_json.set( 'dependencies', {
 
 project_json.set( 'devDependencies', {
   '@koorie/solidjs': '^1.0.0',
-  'solid-devtools': '^0.27.3',
   'typescript': '^5.1.3',
 } )
 

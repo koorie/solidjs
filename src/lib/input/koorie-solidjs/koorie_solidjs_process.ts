@@ -3,7 +3,8 @@ import {
   build_cb,
   init_cb,
   init_description_text,
-  init_usage_text
+  init_usage_text,
+  watch_cb
 } from '../exports.js'
 import { Command } from '@cli-dang/input'
 
@@ -34,5 +35,22 @@ export async function koorie_solidjs_process( parsed: Input.ParsedArgv ) {
       return data
     }
   } )
+
+  KoorieSolidJS.define( '--watch',
+    watch_cb as Input.CommandCallBack, {
+      description: 'Watch for changes and rebuild as needed',
+      usage: 'ks --watch'
+    } )
+
+  await KoorieSolidJS.flag( [ '--config' ], {
+    short: '--config',
+    void: false,
+    check: true,
+    type: 'string',
+    cb: ( data: string ) => {
+      return data
+    }
+  } )
+
   await KoorieSolidJS.intercept()
 }
