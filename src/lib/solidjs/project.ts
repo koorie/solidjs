@@ -23,8 +23,8 @@ export default async function project():Promise<void>{
   project_json.set( 'scripts', {
     'build' : 'npx ks build',
     'watch' : 'npx ks --watch',
-    'dev'   : 'npx koorie spin-up --on-port=8080 --log-everything --to-index-html --hot-live-reloading',
-    'serve' : 'npx koorie spin-up --on-port=8080 --log-everything --to-index-html',
+    'serve:dev'   : 'npx koorie spin-up --on-port=8080 --log-everything --to-index-html --hot-live-reloading',
+    'serve:http' : 'npx koorie spin-up --on-port=8080 --log-everything --to-index-html',
   } )
   project_json.set( 'keywords', [
     'koorie',
