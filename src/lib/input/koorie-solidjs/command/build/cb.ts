@@ -1,7 +1,18 @@
 import { Parcel } from '@parcel/core'
+import Parser from 'node-html-parser'
+import { readFile, writeFile } from 'node:fs/promises'
 
 const app_path = `${process.cwd()}/app`
-export default async function cb():Promise<void>{
+export default async function cb( data: Input.ParsedArgv ):Promise<void>{
+
+  // @ts-ignore: @to-fix
+  if( data.flag_returns?.[ '--production' ] ) {
+    const index_html = await readFile( `${app_path}/index.html`, 'utf-8' )
+    const DOM = Parser.parse( index_html )
+
+    DOM.getElementById( 'koorie-script' ).remove()
+    await writeFile( `${app_path}/index.html`, DOM.toString() )
+  }
 
   const bundler = new Parcel( {
     entries: `${app_path}/index.html`,
