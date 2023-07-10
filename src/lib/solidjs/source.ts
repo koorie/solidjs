@@ -139,7 +139,7 @@ render(() => <App />, root)
     "isolatedModules": true,
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "jsx": "preserve",
     "esModuleInterop": true,
     "allowJs": true,
