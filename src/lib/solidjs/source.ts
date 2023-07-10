@@ -2,10 +2,12 @@ import { cp, mkdir, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { resolvers, undefined_ } from 'oftypes'
+import { access, rm } from 'fs/promises'
 
 const favicon: string = `${dirname( fileURLToPath( import.meta.url ) )}/assets/favicon.ico`
 const source_map: Map<string, string> = new Map()
 const app_path: string = `${process.cwd()}/app`
+const root_path: string = `${process.cwd()}`
 const assets_path: string = `${app_path}/assets`
 
 let root_source: string = 'root'
@@ -22,20 +24,40 @@ export default async function source( root?: string, html_title?: string, App_te
 
   set_source_map()
 
+  if( !( await access( app_path ).catch( error => error ) instanceof Error ) )
+    await rm( app_path, { recursive: true, force: true } ).catch( error => console.log( error ) )
+
   await mkdir( assets_path, { recursive: true } ).catch( error => console.log( error ) )
 
   source_map.forEach( async ( source_code: string, filename: string ): Promise<void> => {
 
     if( filename === 'assets' )
       await cp( favicon, `${assets_path}/favicon.ico` ).catch( error => console.log( error ) )
+    else if( filename === 'tsconfig.json' ) {
+      if ( await access( `${root_path}/${filename}` ).catch( error => error ) instanceof Error )
+        await writeFile( `${root_path}/${filename}`, source_code )
+      else await writeFile( `${root_path}/_${filename}`, source_code )
+
+    }
+    else if( filename === '.babelrc' ) {
+      if ( await access( `${root_path}/${filename}` ).catch( error => error ) instanceof Error )
+        await writeFile( `${root_path}/${filename}`, source_code )
+      else await writeFile( `${root_path}/_${filename}`, source_code )
+
+    }
+    else if( filename === 'declarations.d.ts' ) {
+      if ( await access( `${root_path}/${filename}` ).catch( error => error ) instanceof Error )
+        await writeFile( `${root_path}/${filename}`, source_code )
+      else await writeFile( `${root_path}/_${filename}`, source_code )
+
+    }
     else
       await writeFile( `${app_path}/${filename}`, source_code ).catch( error => console.log( error ) )
   } )
 }
 
-function set_source_map(): void{
+function set_source_map(): void {
 
-  console.log( App_text_source )
   source_map.set( 'App.tsx', `import styles from './App.css';
 import type { Component } from 'solid-js';
 
@@ -59,7 +81,7 @@ import App from './App'
 
 const root = document.getElementById('${root_source}')
 
-if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
+if (!(root instanceof HTMLElement)) {
   throw new Error(
     'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?',
   )
@@ -81,6 +103,18 @@ render(() => <App />, root)
     <div id="${root_source}"></div>
 
     <script src="index.tsx" type="module"></script>
+    <script id="koorie-script">
+      const webSocket = new WebSocket('ws://localhost:6553/')
+      webSocket.onmessage = (event) => {
+        console.log(event.data)
+        setTimeout(() => {
+          window.location.reload()
+        }, 500)
+      };
+      webSocket.addEventListener("open", () => {
+        console.log("koorie HLR connected")
+      });
+    </script>
   </body>
 </html>
 
@@ -102,17 +136,45 @@ render(() => <App />, root)
 
   source_map.set( 'tsconfig.json', `{
   "compilerOptions": {
-    "target": "ESNext",
+    "isolatedModules": true,
     "module": "ESNext",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "target": "ESNext",
+    "moduleResolution": "nodenext",
     "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "lib": [
+      "ES6",
+      "DOM",
+    ],
     "jsxImportSource": "solid-js",
-    "types": ["vite/client"],
-    "noEmit": true,
-    "isolatedModules": true
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "node",
+      "solid-js",
+      "solid-js/web"
+    ]
   }
 }
 ` )
+
+  source_map.set( '.babelrc', `{
+  "presets": [
+    "babel-preset-solid"
+  ]
+}
+` )
+
+  source_map.set( 'declarations.d.ts', `declare module "*.css";
+declare module "*.module.css";
+declare module "*.ico";
+declare module "*.svg";
+declare module "*.png";
+declare module "*.jpg";
+declare module "*.jpeg";
+declare module "*.gif";
+declare module "*.bmp";
+declare module "*.tiff";
+` )
+
 }

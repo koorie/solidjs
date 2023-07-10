@@ -23,6 +23,9 @@ rules:
     - ts-ignore:
         descriptionFormat: '^: @test|@to-fix'
   # eslint core rules
+  prefer-const:
+    - error
+    - destructuring: all
   computed-property-spacing:
     - warn
     - always

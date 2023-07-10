@@ -4,25 +4,26 @@ declare global {
   type SemVersion = string
   type projectName = string
   type projectVersion = string
-  type projectAuthor = {name: string, email?:string, url?:string} & unknown
+  type projectAuthor = {name: string, email?:string, url?:string}
   type projectDescription = string
   type projectDependencies = {
     solidjs: SemVersion
     koorie: SemVersion
-    [package_name: string]: SemVersion
+    [prop: string]: SemVersion
   }
   type projectDevDependencies = {
     '@koorie/solidjs' : SemVersion
-    [package_name : string]: SemVersion
+    [prop: string]: SemVersion
   }
   type projectScripts = {
     build: string
     serve: string
-    [command: string]: string
+    [prop: string]: string
   }
   type projectHomepage = string
-  type projectRepository = {url: string, type: string} & unknown
+  type projectRepository = {url: string, type: string}
   type projectKeywords = string[]
+
   type ProjectArgs = {
     name: projectName,
     version: projectVersion,

@@ -1,12 +1,22 @@
-import { spawn } from 'node:child_process'
+import { Parcel } from '@parcel/core'
 
-export default async function cb( data: Input.ParsedArgv ):Promise<void>{
+const app_path = `${process.cwd()}/app`
+export default async function cb():Promise<void>{
 
-  // @ts-ignore: @to-fix
-  const conf: string = data.flag?.[ '--config' ] ?? `${process.cwd()}/node_modules/@koorie/solidjs/vite.config.ts`
-
-  spawn( 'node_modules/.bin/vite', [ '--emptyOutDir', '--config', conf, 'build' ], {
-    stdio: [ 'ignore', 'inherit', 'inherit' ]
+  const bundler = new Parcel( {
+    entries: `${app_path}/index.html`,
+    defaultConfig: '@parcel/config-default',
+    defaultTargetOptions: {
+      distDir: 'public',
+    }
   } )
+
+  try {
+    const { bundleGraph, buildTime } = await bundler.run()
+    const bundles = bundleGraph.getBundles()
+    console.log( `✨ Built ${bundles.length} bundles in ${buildTime}ms!` )
+  } catch ( err ) {
+    console.log( err.diagnostics )
+  }
 
 }
