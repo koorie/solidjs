@@ -1,6 +1,7 @@
 import { Parcel } from '@parcel/core'
 import Parser from 'node-html-parser'
 import { readFile, writeFile } from 'node:fs/promises'
+import { inspect } from 'util'
 
 const app_path = `${process.cwd()}/app`
 export default async function cb( data: Input.ParsedArgv ):Promise<void>{
@@ -27,7 +28,11 @@ export default async function cb( data: Input.ParsedArgv ):Promise<void>{
     const bundles = bundleGraph.getBundles()
     console.log( `✨ Built ${bundles.length} bundles in ${buildTime}ms!` )
   } catch ( err ) {
-    console.log( err.diagnostics )
+    console.log( inspect( err, {
+      depth: Infinity,
+      colors: true,
+      showHidden: true
+    } ) )
   }
 
 }
